@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace MinenifyMe
 {
-    public class CurveToFunctionComponent : GH_Component
+    public class CurveToPointsComponent : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -17,9 +17,9 @@ namespace MinenifyMe
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public CurveToFunctionComponent()
-          : base("CurveToBlock", "Curve to block",
-            "Converts curves into equavalent block coordinates and returns the setblock list",
+        public CurveToPointsComponent()
+          : base("CurveToPoint", "Curve to point",
+            "Converts curves into equavalent block coordinates",
             "MinenifyMe", "Functions")
         {
         }
@@ -30,7 +30,7 @@ namespace MinenifyMe
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("Curves", "C", "Curves to convert", GH_ParamAccess.list);
-            pManager.AddTextParameter("BlockType", "B", "Block Type", GH_ParamAccess.item,"stone");
+
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace MinenifyMe
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.Register_PointParam("Points", "P", "Points representing the block coordinates", GH_ParamAccess.list);
-            pManager.Register_StringParam("McFunction", "M", "Setblock function commands", GH_ParamAccess.list);
+          
         }
 
         /// <summary>
@@ -50,14 +50,14 @@ namespace MinenifyMe
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             //Definerer variabler til brug i c# kode (overskrides i næste skridt)
-            string blockType = "stone";
+
             List<Curve> curves = new List<Curve>();
             double divisionLength = 0.333;
             
             List<Point3d> curvePoints = new List<Point3d>();
             Rhino.Geometry.Point3d[] curvePoint;
 
-            List<string> commands = new List<string>();
+
             
 
        
@@ -65,16 +65,11 @@ namespace MinenifyMe
             // Then we need to access the input parameters individually. 
             // When data cannot be extracted from a parameter, we should abort this method.
             if (!DA.GetDataList(0, curves)) return;
-            if (!DA.GetData(1, ref blockType)) return;
+
     
 
 
             // We should now validate the data and warn the user if invalid data is supplied.
-            if (blockType == null)
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Block type not defined");
-                return;
-            }
             if (curves == null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No curves defined");
@@ -96,17 +91,13 @@ namespace MinenifyMe
 
             //rounds all points to nearest integer and filters out double points
             curvePoints = curvePoints.Select(p => new Point3d(Math.Round(p.X), Math.Round(p.Y), Math.Round(p.Z))).Distinct().ToList();
-            //converts points to setblock function commands
-            foreach (Point3d point in curvePoints)
-            {
-                commands.Add("setblock " + point.X + " " + point.Y + " " + point.Z + " " + blockType);
-            }
-   
 
 
+
+            
             //output
             DA.SetDataList(0, curvePoints);
-            DA.SetDataList(1, commands);
+
 
 
         }

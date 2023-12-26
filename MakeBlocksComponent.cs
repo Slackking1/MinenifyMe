@@ -12,7 +12,7 @@ namespace MinenifyMe
         /// Initializes a new instance of the MakeBlocksComponent class.
         /// </summary>
         public MakeBlocksComponent()
-          : base("MakeBlocksComponent", "McB",
+          : base("MakeBlocks", "McB",
               "Make block for rendering in rhino",
               "MinenifyMe", "Rendering")
         {
