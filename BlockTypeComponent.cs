@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Drawing;
 using Grasshopper.Kernel;
+using MinenifyMe.Properties;
 using Rhino.Geometry;
 
 namespace MinenifyMe
 {
-    public class BlockTypeComponent : GH_Component
+    public class TypeComponent : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the BlockType class.
         /// </summary>
-        public BlockTypeComponent()
-          : base("BlockType", "Nickname",
-              "Description",
+        public TypeComponent()
+          : base("Type", "McT",
+              "Provides a library of minecraft items and blocks",
               "MinenifyMe", "Library")
         {
         }
@@ -31,6 +32,7 @@ namespace MinenifyMe
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.Register_StringParam("BlockTypes", "Bt", "Available block from minecraft used together for instance itemselector in human plugin", GH_ParamAccess.list);
+            pManager.Register_StringParam("ItemTypes", "It", "Available items from minecraft used together for instance itemselector in human plugin", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -42,12 +44,15 @@ namespace MinenifyMe
 
             //Create a list based on the file blocks.txt, where each line is a list item with a block type
             //List<string> blockTypes = new List<string>();
-            string[] lines = System.IO.File.ReadAllLines(@"D:\MinenifyMe\blocks.txt");
+            string[] lines = Properties.Resources.blocks.Split();
+            //string[] lines = System.IO.File.ReadAllLines(@"Resources\blocks.txt");
+            string[] lines2 = Properties.Resources.items.Split();
 
 
 
             //Set the output to the blockTypes list
             DA.SetDataList(0, lines);
+            DA.SetDataList(1, lines2);
 
 
         }
@@ -60,8 +65,9 @@ namespace MinenifyMe
             get
             {
                 //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                //return Resources.BlockType;
+                return new Bitmap(Resources.BlockType, new Size(24, 24));
+                //return null;
             }
         }
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Drawing;
 using Grasshopper.Kernel;
+using MinenifyMe.Properties;
 using Rhino.Geometry;
 
 namespace MinenifyMe
@@ -75,8 +76,8 @@ namespace MinenifyMe
             get
             {
                 //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return new Bitmap(Resources.previewBlocks, new Size(24, 24));
+                //return null;
             }
         }
 

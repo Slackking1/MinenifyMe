@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 using Grasshopper.Kernel;
+using MinenifyMe.Properties;
 using Rhino.Geometry;
 
 namespace MinenifyMe
@@ -42,7 +43,7 @@ namespace MinenifyMe
 
             //Create a list based on the file blocks.txt, where each line is a list item with a block type
             //List<string> blockTypes = new List<string>();
-            string[] lines = System.IO.File.ReadAllLines(@"D:\MinenifyMe\items.txt");
+            string[] lines = System.IO.File.ReadAllLines(@"Resources\blocks.txt");
 
 
 
@@ -60,8 +61,8 @@ namespace MinenifyMe
             get
             {
                 //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Resources.itemType;
+                //return null;
             }
         }
 

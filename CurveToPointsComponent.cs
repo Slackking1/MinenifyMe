@@ -1,9 +1,11 @@
 using Grasshopper;
 using Grasshopper.GUI.Script;
 using Grasshopper.Kernel;
+using MinenifyMe.Properties;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace MinenifyMe
@@ -75,9 +77,9 @@ namespace MinenifyMe
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No curves defined");
                 return;
             }
+            
 
-      
-
+     
             //Splits curves into points
             foreach (Curve curve in curves)
             {
@@ -108,7 +110,17 @@ namespace MinenifyMe
         /// You can add image files to your project resources and access them like this:
         /// return Resources.IconForThisComponent;
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon
+        {
+            get
+            {
+                //You can add image files to your project resources and access them like this:
+                
+                return new Bitmap(Resources.curveToPoint, new Size(24, 24));
+                //return null;
+            }
+        }
+
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
